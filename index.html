@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylvanus | Le Gardien Numérique des Forêts Françaises</title>
+    <!-- Framework CSS utilitaire -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Polices Google Fonts : Cinzel (antique) et Lato (moderne) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lato:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2d5937; /* Vert forêt profond */
+            --color-secondary: #6b9247; /* Vert naturel */
+            --color-accent: #d4a96c; /* Or/ocre antique */
+            --color-light: #f8f5f0; /* Beige parchemin */
+            --color-dark: #1a2c21; /* Vert quasi noir */
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-antique {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+        }
+        /* Arrière-plan avec texture antique */
+        .forest-antique-bg {
+            background: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><path d="M0,0 L100,0 L100,100 Z" fill="%231a2c21"/></svg>'),
+                linear-gradient(135deg, rgba(45, 89, 55, 0.92) 0%, rgba(26, 44, 33, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: auto, cover, cover;
+            background-position: center;
+            background-blend-mode: normal, normal, overlay;
+        }
+        /* Cartes avec style antique */
+        .card-antique {
+            background: var(--color-light);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px -15px rgba(26, 44, 33, 0.15), 0 4px 6px -4px rgba(26, 44, 33, 0.08);
+            border: 1px solid rgba(212, 169, 108, 0.15);
+            position: relative;
+            overflow: hidden;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+        .card-antique::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
+        }
+        /* Bouton principal */
+        .btn-primary {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(45, 89, 55, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(45, 89, 55, 0.6);
+        }
+        /* Animation d'apparition */
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Gestion du texte pour mobile */
+        .text-container p, .text-container li, .text-container span { overflow-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <!-- Bandeau de langue -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="languageToggle" class="bg-white/90 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full shadow-lg flex items-center space-x-2 hover:shadow-xl transition-all duration-300">
+            <i class="fas fa-globe"></i>
+            <span id="currentLanguage" class="font-medium">FR</span>
+        </button>
+    </div>
+
+    <!-- En-tête Héro avec contexte français explicite -->
+    <header class="forest-antique-bg text-white min-h-screen flex items-center justify-center relative px-4">
+        <div class="container mx-auto text-center max-w-5xl px-4 sm:px-6 py-20">
+            <div class="absolute top-10 left-1/2 transform -translate-x-1/2 opacity-20">
+                <i class="fas fa-laurel-crown text-5xl text-[#d4a96c]"></i>
+            </div>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 fade-in font-antique">
+                Sylvanus
+            </h1>
+            <p class="text-xl sm:text-2xl md:text-3xl font-light mb-4 fade-in opacity-95" data-fr="Le gardien numérique de votre forêt" data-en="The digital guardian of your forest">
+                Le gardien numérique de votre forêt
+            </p>
+            <!-- Sous-titre contextuel explicite -->
+            <p class="text-lg sm:text-xl max-w-2xl mx-auto mb-8 fade-in px-4 text-container font-medium text-[#d4a96c]" data-fr="Conçu pour les propriétaires de forêts en France. Gérer votre PSG n'a jamais été aussi simple." data-en="Designed for forest owners in France. Managing your Forest Management Plan has never been easier.">
+                Conçu pour les propriétaires de forêts en France. Gérer votre PSG n'a jamais été aussi simple.
+            </p>
+            <p class="text-lg sm:text-xl max-w-3xl mx-auto mb-12 opacity-90 fade-in px-4 text-container" data-fr="Vous avez hérité ou acheté une forêt en France et le <strong>Plan Simple de Gestion (PSG)</strong> vous semble illisible ? Sylvanus analyse votre document administratif et le traduit en un calendrier clair, avec des alertes et des explications simples." data-en="Did you inherit or buy a forest in France and find the <strong>Forest Management Plan (PSG)</strong> incomprehensible? Sylvanus analyzes your administrative document and translates it into a clear calendar, with alerts and simple explanations.">
+                Vous avez hérité ou acheté une forêt en France et le <strong>Plan Simple de Gestion (PSG)</strong> vous semble illisible ? Sylvanus analyse votre document administratif et le traduit en un calendrier clair, avec des alertes et des explications simples.
+            </p>
+            <a href="#demo" class="btn-primary inline-block fade-in text-lg" data-fr="Découvrir la démo immersive" data-en="Discover the immersive demo">
+                Découvrir la démo immersive
+            </a>
+        </div>
+    </header>
+
+    <!-- Section Démo Interactive - 5 Écrans -->
+    <section id="demo" class="py-16 md:py-24 bg-gradient-to-b from-[#f8f5f0] to-white px-4">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#1a2c21] font-antique" data-fr="Votre PSG traduit et expliqué en 5 minutes" data-en="Your PSG translated and explained in 5 minutes">
+                Votre PSG traduit et expliqué en 5 minutes
+            </h2>
+            <p class="text-center text-gray-700 mb-12 max-w-2xl mx-auto px-4 text-container" data-fr="Parcourez chaque étape. Nous expliquons tout, comme si vous aviez un expert à vos côtés." data-en="Walk through each step. We explain everything, as if you had an expert by your side.">
+                Parcourez chaque étape. Nous expliquons tout, comme si vous aviez un expert à vos côtés.
+            </p>
+
+            <div class="card-antique max-w-5xl mx-auto p-6 md:p-8">
+                <!-- Indicateurs d'étape -->
+                <div class="flex justify-center mb-10 flex-wrap gap-2">
+                    <div class="step-indicator active" data-step="1">1</div>
+                    <div class="step-indicator" data-step="2">2</div>
+                    <div class="step-indicator" data-step="3">3</div>
+                    <div class="step-indicator" data-step="4">4</div>
+                    <div class="step-indicator" data-step="5">5</div>
+                </div>
+
+                <!-- Écran 1 : Upload -->
+                <div id="step1" class="demo-step text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-[#2d5937] to-[#1a2c21] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-[#1a2c21] font-antique" data-fr="1. Téléversez votre PSG" data-en="1. Upload your PSG">
+                        1. Téléversez votre PSG
+                    </h3>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto text-container" data-fr="Le <strong>Plan Simple de Gestion (PSG)</strong> est le document officiel qui planifie la gestion de votre forêt pour les 10 à 20 ans à venir. C'est celui que vous avez reçu de votre notaire, expert ou coopérative." data-en="The <strong>Forest Management Plan (PSG)</strong> is the official document that plans the management of your forest for the next 10 to 20 years. It's the one you received from your notary, expert, or cooperative.">
+                        Le <strong>Plan Simple de Gestion (PSG)</strong> est le document officiel qui planifie la gestion de votre forêt pour les 10 à 20 ans à venir. C'est celui que vous avez reçu de votre notaire, expert ou coopérative.
+                    </p>
+                    <div class="border-2 border-dashed border-[#d4a96c] rounded-2xl p-8 md:p-12 my-8 cursor-pointer hover:bg-[#f8f5f0]/30 transition-colors bg-white/50" id="dropZone">
+                        <i class="fas fa-scroll text-6xl text-[#d4a96c] mb-6"></i>
+                        <p class="text-xl font-medium mb-2" data-fr="Glissez-déposez votre PSG (PDF)" data-en="Drag and drop your PSG (PDF)">
+                            Glissez-déposez votre PSG (PDF)
+                        </p>
+                    </div>
+                    <div class="mt-10">
+                        <button id="simulateUpload" class="btn-primary px-10 py-4" data-fr="Simuler l'analyse IA (Démo)" data-en="Simulate AI Analysis (Demo)">
+                            Simuler l'analyse IA (Démo)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Écran 2 : Analyse IA (Caché) -->
+                <div id="step2" class="demo-step hidden">
+                    <div class="w-20 h-20 bg-gradient-to-br from-[#2d5937] to-[#1a2c21] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-[#1a2c21] font-antique" data-fr="2. Notre IA déchiffre pour vous" data-en="2. Our AI deciphers it for you">
+                        2. Notre IA déchiffre pour vous
+                    </h3>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto text-container" data-fr="Sylvanus lit et structure les centaines de dates, parcelles et obligations techniques présentes dans votre document." data-en="Sylvanus reads and structures the hundreds of dates, plots, and technical obligations in your document.">
+                        Sylvanus lit et structure les centaines de dates, parcelles et obligations techniques présentes dans votre document.
+                    </p>
+                    <div class="my-10">
+                        <div class="flex items-center justify-center mb-8">
+                            <div class="text-left mr-6 md:mr-10">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-8 h-8 bg-[#6b9247] rounded-full flex items-center justify-center text-white mr-3"><i class="fas fa-check text-sm"></i></div>
+                                    <span data-fr="Extraction du texte..." data-en="Text extraction...">Extraction du texte...</span>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <div class="w-8 h-8 bg-[#6b9247] rounded-full flex items-center justify-center text-white mr-3"><i class="fas fa-check text-sm"></i></div>
+                                    <span data-fr="Identification des parcelles..." data-en="Plot identification...">Identification des parcelles...</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div id="aiTask" class="w-8 h-8 bg-[#d4a96c] rounded-full flex items-center justify-center text-white mr-3"><i class="fas fa-cog fa-spin text-sm"></i></div>
+                                    <span id="aiTaskText" data-fr="Traduction en langage clair..." data-en="Translation to plain language...">Traduction en langage clair...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="text-gray-600 hover:text-gray-900 font-medium py-3 px-6 mr-4 rounded-full border border-gray-300 hover:border-gray-400 transition" onclick="showStep(1)" data-fr="← Retour" data-en="← Back">← Retour</button>
+                        <button class="btn-primary" onclick="showStep(3)" data-fr="Voir ma synthèse personnalisée" data-en="See my personalized summary">Voir ma synthèse personnalisée</button>
+                    </div>
+                </div>
+
+                <!-- Écran 3 : Vue Synthèse & Calendrier Éducatif (Caché) -->
+                <div id="step3" class="demo-step hidden">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-8 text-[#1a2c21] font-antique text-center" data-fr="3. Votre tableau de bord et votre plan" data-en="3. Your dashboard and your plan">
+                        3. Votre tableau de bord et votre plan
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6 mb-10">
+                        <!-- Carte Prochaine Échéance -->
+                        <div class="card-antique p-6">
+                            <h4 class="font-bold text-lg mb-4 text-[#2d5937] flex items-center"><i class="fas fa-calendar-day mr-2"></i> <span data-fr="Votre prochaine tâche" data-en="Your next task">Votre prochaine tâche</span></h4>
+                            <div class="flex items-center">
+                                <div class="bg-[#d4a96c] text-white rounded-lg p-3 text-center mr-4 min-w-[80px]">
+                                    <div class="font-bold text-2xl">OCT</div>
+                                    <div class="text-sm">2026</div>
+                                </div>
+                                <div class="text-container">
+                                    <p class="font-semibold" data-fr="Demander l'autorisation administrative" data-en="Request the administrative permit">Demander l'autorisation administrative</p>
+                                    <p class="text-sm text-gray-600" data-fr="Pour la parcelle <strong>B4</strong>" data-en="For plot <strong>B4</strong>">Pour la parcelle <strong>B4</strong></p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-4" data-fr="💡 <em>En France, la plupart des coupes nécessitent une déclaration ou autorisation préalable auprès des services de l'État. Votre expert s'en charge, mais doit anticiper.</em>" data-en="💡 <em>In France, most cuttings require a prior declaration or permit from state services. Your expert handles it but must plan ahead.</em>">
+                                💡 <em>En France, la plupart des coupes nécessitent une déclaration ou autorisation préalable auprès des services de l'État. Votre expert s'en charge, mais doit anticiper.</em>
+                            </p>
+                        </div>
+                        <!-- Carte Essences -->
+                        <div class="card-antique p-6">
+                            <h4 class="font-bold text-lg mb-4 text-[#2d5937] flex items-center"><i class="fas fa-trees mr-2"></i> <span data-fr="Les essences de votre forêt" data-en="Your forest species">Les essences de votre forêt</span></h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between"><span data-fr="Chêne pédonculé" data-en="Pedunculate Oak">Chêne pédonculé</span> <span class="font-semibold">65%</span></div>
+                                <div class="h-2 bg-gray-200 rounded-full"><div class="h-full bg-[#6b9247] rounded-full" style="width:65%"></div></div>
+                                <div class="flex justify-between"><span data-fr="Hêtre" data-en="Beech">Hêtre</span> <span class="font-semibold">25%</span></div>
+                                <div class="h-2 bg-gray-200 rounded-full"><div class="h-full bg-[#6b9247] rounded-full" style="width:25%"></div></div>
+                                <div class="flex justify-between"><span data-fr="Douglas" data-en="Douglas Fir">Douglas</span> <span class="font-semibold">10%</span></div>
+                                <div class="h-2 bg-gray-200 rounded-full"><div class="h-full bg-[#6b9247] rounded-full" style="width:10%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOUVEAU : Frise chronologique interactive éducative -->
+                    <div class="card-antique p-6 mb-8">
+                        <h4 class="font-bold text-xl mb-6 text-[#2d5937] text-center" data-fr="📅 Comprendre votre cycle de gestion sur 5 ans" data-en="📅 Understand your 5-year management cycle">
+                            📅 Comprendre votre cycle de gestion sur 5 ans
+                        </h4>
+                        <p class="text-gray-600 mb-6 text-center text-container" data-fr="La gestion forestière se pense sur le long terme. Voici ce qui vous attend, expliqué simplement :" data-en="Forest management is a long-term endeavor. Here's what lies ahead, explained simply:">
+                            La gestion forestière se pense sur le long terme. Voici ce qui vous attend, expliqué simplement :
+                        </p>
+                        <div class="flex overflow-x-auto pb-4 space-x-4 snap-x snap-mandatory" id="timeline">
+                            <!-- Année 1 -->
+                            <div class="timeline-step flex-shrink-0 w-64 bg-white p-4 rounded-lg border border-gray-200 cursor-pointer snap-center" data-info="year1">
+                                <div class="font-bold text-lg text-[#2d5937]">2026</div>
+                                <div class="font-semibold mb-2" data-fr="Phase Préparatoire" data-en="Preparation Phase">Phase Préparatoire</div>
+                                <p class="text-sm text-gray-600" data-fr="Rencontre avec votre expert pour définir les objectifs." data-en="Meeting with your expert to define goals.">
+                                    Rencontre avec votre expert pour définir les objectifs.
+                                </p>
+                                <button class="text-[#2d5937] text-sm font-medium mt-3" data-fr="En savoir plus +" data-en="Learn more +">En savoir plus +</button>
+                            </div>
+                            <!-- Année 2 -->
+                            <div class="timeline-step flex-shrink-0 w-64 bg-white p-4 rounded-lg border border-gray-200 cursor-pointer snap-center" data-info="year2">
+                                <div class="font-bold text-lg text-[#2d5937]">2027</div>
+                                <div class="font-semibold mb-2" data-fr="Démarches Administratives" data-en="Administrative Steps">Démarches Administratives</div>
+                                <p class="text-sm text-gray-600" data-fr="Dépôt des dossiers pour autorisation de coupe." data-en="Filing applications for cutting permits.">
+                                    Dépôt des dossiers pour autorisation de coupe.
+                                </p>
+                                <button class="text-[#2d5937] text-sm font-medium mt-3" data-fr="En savoir plus +" data-en="Learn more +">En savoir plus +</button>
+                            </div>
+                            <!-- Année 3 -->
+                            <div class="timeline-step flex-shrink-0 w-64 bg-white p-4 rounded-lg border border-gray-200 cursor-pointer snap-center" data-info="year3">
+                                <div class="font-bold text-lg text-[#2d5937]">2028</div>
+                                <div class="font-semibold mb-2" data-fr="Réalisation de la Coupe" data-en="Cutting Operation">Réalisation de la Coupe</div>
+                                <p class="text-sm text-gray-600" data-fr="Intervention des bûcherons. Votre validation finale." data-en="Loggers' intervention. Your final validation.">
+                                    Intervention des bûcherons. Votre validation finale.
+                                </p>
+                                <button class="text-[#2d5937] text-sm font-medium mt-3" data-fr="En savoir plus +" data-en="Learn more +">En savoir plus +</button>
+                            </div>
+                        </div>
+                        <!-- Zone d'explication détaillée -->
+                        <div class="mt-6 p-4 bg-[#f0f7eb] rounded-lg hidden" id="timelineDetail">
+                            <p id="detailText" class="text-gray-700"></p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="text-gray-600 hover:text-gray-900 font-medium py-3 px-6 mr-4 rounded-full border border-gray-300 hover:border-gray-400 transition" onclick="showStep(2)" data-fr="← Précédent" data-en="← Previous">← Précédent</button>
+                        <button class="btn-primary" onclick="showStep(4)" data-fr="Générer mon 1er email pour l'expert →" data-en="Generate my 1st email for the expert →">Générer mon 1er email pour l'expert →</button>
+                    </div>
+                </div>
+
+                <!-- Écran 4 : Générateur d'Email avec Options Éducatives (Caché) -->
+                <div id="step4" class="demo-step hidden">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-8 text-[#1a2c21] font-antique text-center" data-fr="4. Communiquer avec votre expert en toute confiance" data-en="4. Communicate with your expert with confidence">
+                        4. Communiquer avec votre expert en toute confiance
+                    </h3>
+                    <p class="text-gray-600 mb-8 max-w-2xl mx-auto text-center text-container" data-fr="Vous ne savez pas quoi demander ? Nous rédigeons pour vous un email professionnel et clair, que vous pouvez personnaliser." data-en="Not sure what to ask? We draft a professional and clear email for you, which you can customize.">
+                        Vous ne savez pas quoi demander ? Nous rédigeons pour vous un email professionnel et clair, que vous pouvez personnaliser.
+                    </p>
+
+                    <div class="card-antique p-6 mb-8">
+                        <!-- Options éducatives à cocher -->
+                        <div class="mb-8">
+                            <p class="font-medium mb-4" data-fr="Que souhaitez-vous inclure dans votre email ?" data-en="What would you like to include in your email?">Que souhaitez-vous inclure dans votre email ?</p>
+                            <div class="space-y-3 text-left">
+                                <label class="flex items-center"><input type="checkbox" class="mr-3 h-5 w-5 rounded border-gray-300 text-[#2d5937] focus:ring-[#2d5937]" data-action="quote"> <span data-fr="Demander un devis détaillé pour la coupe." data-en="Request a detailed quote for the cut.">Demander un devis détaillé pour la coupe.</span></label>
+                                <label class="flex items-center"><input type="checkbox" class="mr-3 h-5 w-5 rounded border-gray-300 text-[#2d5937] focus:ring-[#2d5937]" data-action="visit"> <span data-fr="Proposer une visite conjointe de la parcelle avant travaux." data-en="Suggest a joint visit to the plot before work.">Proposer une visite conjointe de la parcelle avant travaux.</span></label>
+                                <label class="flex items-center"><input type="checkbox" class="mr-3 h-5 w-5 rounded border-gray-300 text-[#2d5937] focus:ring-[#2d5937]" data-action="ecology"> <span data-fr="S'interroger sur les mesures pour préserver la biodiversité." data-en="Ask about measures to preserve biodiversity.">S'interroger sur les mesures pour préserver la biodiversité.</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Email généré -->
+                        <div class="bg-white border border-gray-300 rounded-xl p-6 text-left">
+                            <p class="text-gray-500 text-sm mb-1" data-fr="À :" data-en="To:">À :</p><p class="mb-4 font-medium">contact@cooperative-forestiere.fr</p>
+                            <p class="text-gray-500 text-sm mb-1" data-fr="Objet :" data-en="Subject:">Objet :</p>
+                            <p class="mb-6 font-semibold" id="emailSubject" data-fr="Demande relative au PSG - Parcelle B4 (Coupe automne 2026)" data-en="Request regarding the PSG - Plot B4 (Fall 2026 cut)">Demande relative au PSG - Parcelle B4 (Coupe automne 2026)</p>
+                            <p class="text-gray-500 text-sm mb-1" data-fr="Message :" data-en="Message:">Message :</p>
+                            <div class="text-gray-700 space-y-3 text-container" id="emailBody">
+                                <p data-fr="Bonjour," data-en="Hello,">Bonjour,</p>
+                                <p data-fr="Je vous contacte concernant la coupe prévue sur la parcelle B4 (chênes) à l'automne 2026, telle que planifiée dans mon Plan Simple de Gestion (PSG-2020-045)." data-en="I am contacting you regarding the cut planned on plot B4 (oaks) in fall 2026, as scheduled in my Forest Management Plan (PSG-2020-045).">Je vous contacte concernant la coupe prévue sur la parcelle B4 (chênes) à l'automne 2026, telle que planifiée dans mon Plan Simple de Gestion (PSG-2020-045).</p>
+                                <p data-fr="Pouvez-vous m'aider à initier les démarches pour l'autorisation administrative requise et me préciser les prochaines étapes ainsi que le calendrier ?" data-en="Could you help me initiate the process for the required administrative permit and clarify the next steps and timeline?">Pouvez-vous m'aider à initier les démarches pour l'autorisation administrative requise et me préciser les prochaines étapes ainsi que le calendrier ?</p>
+                                <p data-fr="Je reste à votre disposition pour en discuter." data-en="I remain available to discuss it.">Je reste à votre disposition pour en discuter.</p>
+                                <p data-fr="Cordialement," data-en="Sincerely,">Cordialement,</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-6 rounded-lg mr-3 transition" onclick="copyToClipboard()" data-fr="Copier l'email" data-en="Copy email">Copier l'email</button>
+                            <button class="bg-[#2d5937] hover:bg-[#1a2c21] text-white font-medium py-2 px-6 rounded-lg transition" data-fr="Ouvrir dans Gmail/Outlook" data-en="Open in Gmail/Outlook">Ouvrir dans Gmail/Outlook</button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="text-gray-600 hover:text-gray-900 font-medium py-3 px-6 mr-4 rounded-full border border-gray-300 hover:border-gray-400 transition" onclick="showStep(3)" data-fr="← Précédent" data-en="← Previous">← Précédent</button>
+                        <button class="btn-primary" onclick="showStep(5)" data-fr="Voir mon plan d'action final →" data-en="See my final action plan →">Voir mon plan d'action final →</button>
+                    </div>
+                </div>
+
+                <!-- Écran 5 : Plan d'Action & CTA Final (Caché) -->
+                <div id="step5" class="demo-step hidden">
+                    <div class="text-center mb-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-[#d4a96c] to-[#b89450] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold mb-4 text-[#1a2c21] font-antique" data-fr="5. Félicitations, vous avez repris le contrôle !" data-en="5. Congratulations, you've taken back control!">
+                            5. Félicitations, vous avez repris le contrôle !
+                        </h3>
+                        <p class="text-gray-700 max-w-2xl mx-auto text-container" data-fr="Sylvanus a transformé des pages de jargon en un guide exécutable. Voici votre plan personnalisé :" data-en="Sylvanus has transformed pages of jargon into an executable guide. Here is your personalized plan:">
+                            Sylvanus a transformé des pages de jargon en un guide exécutable. Voici votre plan personnalisé :
+                        </p>
+                    </div>
+                    <div class="bg-gradient-to-r from-[#f0f7eb] to-[#f8f5f0] border border-[#6b9247]/30 rounded-2xl p-8 mb-10">
+                        <h4 class="font-bold text-xl mb-6 text-center text-[#2d5937]" data-fr="Vos 3 prochaines actions concrètes" data-en="Your next 3 concrete actions">Vos 3 prochaines actions concrètes</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-start bg-white p-4 rounded-xl">
+                                <div class="bg-[#2d5937] text-white rounded-lg p-3 text-center mr-4">
+                                    <div class="font-bold">1</div>
+                                </div>
+                                <div class="text-container">
+                                    <p class="font-semibold" data-fr="Envoyer l'email à votre expert forestier (copié)" data-en="Send the email to your forestry expert (copied)">Envoyer l'email à votre expert forestier (copié)</p>
+                                    <p class="text-sm text-gray-600" data-fr="<strong>Objectif :</strong> Lancer la demande d'autorisation." data-en="<strong>Goal:</strong> Initiate the permit request."><strong>Objectif :</strong> Lancer la demande d'autorisation.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-white p-4 rounded-xl">
+                                <div class="bg-[#6b9247] text-white rounded-lg p-3 text-center mr-4">
+                                    <div class="font-bold">2</div>
+                                </div>
+                                <div class="text-container">
+                                    <p class="font-semibold" data-fr="Consulter l'annuaire Sylvanus pour un éventuel 2nd avis" data-en="Consult the Sylvanus directory for a potential 2nd opinion">Consulter l'annuaire Sylvanus pour un éventuel 2nd avis</p>
+                                    <p class="text-sm text-gray-600" data-fr="<strong>Outils :</strong> Annuaire d'experts vérifiés près de chez vous." data-en="<strong>Tools:</strong> Directory of verified experts near you."><strong>Outils :</strong> Annuaire d'experts vérifiés près de chez vous.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start bg-white p-4 rounded-xl">
+                                <div class="bg-[#d4a96c] text-white rounded-lg p-3 text-center mr-4">
+                                    <div class="font-bold">3</div>
+                                </div>
+                                <div class="text-container">
+                                    <p class="font-semibold" data-fr="Laisser Sylvanus gérer les rappels" data-en="Let Sylvanus handle the reminders">Laisser Sylvanus gérer les rappels</p>
+                                    <p class="text-sm text-gray-600" data-fr="<strong>Fonction :</strong> Vous serez alerté avant chaque échéance." data-en="<strong>Feature:</strong> You will be alerted before each deadline."><strong>Fonction :</strong> Vous serez alerté avant chaque échéance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CTA Final - PRIX RETIRÉ -->
+                    <div class="text-center p-8 bg-gradient-to-br from-[#1a2c21] to-[#2d5937] text-white rounded-2xl">
+                        <h4 class="text-2xl font-bold mb-4 font-antique" data-fr="Prêt à faire de Sylvanus le gardien de votre forêt ?" data-en="Ready to make Sylvanus the guardian of your forest?">Prêt à faire de Sylvanus le gardien de votre forêt ?</h4>
+                        <p class="mb-8 opacity-90 max-w-md mx-auto text-container" data-fr="Rejoignez la liste d'attente pour un accès prioritaire." data-en="Join the waitlist for priority access.">
+                            Rejoignez la liste d'attente pour un accès prioritaire.
+                        </p>
+                        <a href="#signup" class="btn-primary bg-white text-[#1a2c21] border-white hover:bg-gray-100 hover:text-[#1a2c21] inline-block">
+                            <span data-fr="Rejoindre la liste d'attente" data-en="Join the waitlist">Rejoindre la liste d'attente</span>
+                        </a>
+                    </div>
+                    <div class="text-center mt-8">
+                        <button class="text-gray-600 hover:text-gray-900 font-medium py-3 px-6 rounded-full border border-gray-300 hover:border-gray-400 transition" onclick="showStep(1)" data-fr="Recommencer la démo" data-en="Restart demo">Recommencer la démo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Fonctionnalités -->
+    <section class="py-16 md:py-24 bg-white px-4">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-[#1a2c21] font-antique" data-fr="Comment Sylvanus vous guide" data-en="How Sylvanus guides you">
+                Comment Sylvanus vous guide
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8 md:gap-10">
+                <div class="card-antique p-8 text-center hover:transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#2d5937]/10 text-[#2d5937] text-3xl mb-6">
+                        <i class="fas fa-scroll"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[#1a2c21]" data-fr="Traducteur de PSG" data-en="PSG Translator">Traducteur de PSG</h3>
+                    <p class="text-gray-600 text-container" data-fr="Notre IA extrait les dates, parcelles et obligations de votre PDF pour les présenter en langage clair." data-en="Our AI extracts dates, plots, and obligations from your PDF to present them in clear language.">
+                        Notre IA extrait les dates, parcelles et obligations de votre PDF pour les présenter en langage clair.
+                    </p>
+                </div>
+                <div class="card-antique p-8 text-center hover:transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#6b9247]/10 text-[#6b9247] text-3xl mb-6">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[#1a2c21]" data-fr="Veille administrative" data-en="Administrative Watch">Veille administrative</h3>
+                    <p class="text-gray-600 text-container" data-fr="Rappels automatiques pour les déclarations, les autorisations de coupe et les échéances fiscales." data-en="Automatic reminders for declarations, cutting permits, and tax deadlines.">
+                        Rappels automatiques pour les déclarations, les autorisations de coupe et les échéances fiscales.
+                    </p>
+                </div>
+                <div class="card-antique p-8 text-center hover:transform hover:-translate-y-2 transition-transform duration-300">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#d4a96c]/10 text-[#d4a96c] text-3xl mb-6">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[#1a2c21]" data-fr="Réseau d'experts" data-en="Expert Network">Réseau d'experts</h3>
+                    <p class="text-gray-600 text-container" data-fr="Accès à un annuaire vérifié de gestionnaires et d'experts forestiers près de votre parcelle." data-en="Access to a verified directory of managers and forestry experts near your plot.">
+                        Accès à un annuaire vérifié de gestionnaires et d'experts forestiers près de votre parcelle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Inscription Simplifiée (Email uniquement) -->
+    <section id="signup" class="py-16 md:py-24 bg-gradient-to-b from-white to-[#f8f5f0] px-4">
+        <div class="container mx-auto max-w-2xl">
+            <div class="card-antique p-8 md:p-12 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#1a2c21] font-antique" data-fr="Votre forêt attend son gardien" data-en="Your forest awaits its guardian">
+                    Votre forêt attend son gardien
+                </h2>
+                <p class="text-xl text-gray-700 mb-10 text-container" data-fr="Inscrivez-vous pour un accès prioritaire à Sylvanus." data-en="Sign up for priority access to Sylvanus.">
+                    Inscrivez-vous pour un accès prioritaire à Sylvanus.
+                </p>
+                <!-- Formulaire Formspree simplifié (email uniquement) -->
+                <form action="https://formspree.io/f/xbdlwbek" method="POST" class="space-y-6 max-w-md mx-auto">
+                    <div>
+                        <label for="email" class="sr-only" data-fr="Votre adresse email" data-en="Your email address">Votre adresse email</label>
+                        <input type="email" id="formEmail" name="email" required class="w-full p-4 border border-gray-300 rounded-xl focus:border-[#2d5937] focus:ring-2 focus:ring-[#2d5937]/30 outline-none transition text-lg" placeholder="votre@email.com">
+                    </div>
+                    <div class="flex items-start text-left">
+                        <input type="checkbox" id="consent" name="consent" required class="mt-1 mr-3 h-5 w-5 rounded border-gray-300 text-[#2d5937] focus:ring-[#2d5937]">
+                        <label for="consent" class="text-gray-700 text-sm" data-fr="J'accepte de recevoir les nouvelles de Sylvanus. Pas de spam, désinscription à tout moment." data-en="I agree to receive news from Sylvanus. No spam, unsubscribe at any time.">
+                            J'accepte de recevoir les nouvelles de Sylvanus. Pas de spam, désinscription à tout moment.
+                        </label>
+                    </div>
+                    <div class="pt-4">
+                        <button type="submit" class="btn-primary w-full py-4 text-lg">
+                            <span data-fr="Rejoindre la liste d'attente" data-en="Join the waitlist">Rejoindre la liste d'attente</span>
+                        </button>
+                        <p class="text-gray-500 text-sm mt-4" data-fr="Nous respectons votre vie privée. Gérez vos préférences à tout moment." data-en="We respect your privacy. Manage your preferences at any time.">
+                            Nous respectons votre vie privée. Gérez vos préférences à tout moment.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pied de page avec copyright 2026 -->
+    <footer class="bg-[#1a2c21] text-white py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0 text-center md:text-left">
+                    <h3 class="text-2xl font-bold mb-4 font-antique">Sylvanus</h3>
+                    <p class="text-white/70 max-w-md text-container" data-fr="Le gardien numérique conçu pour les propriétaires de forêts en France. Simplifiez la gestion de votre PSG." data-en="The digital guardian designed for forest owners in France. Simplify the management of your PSG.">
+                        Le gardien numérique conçu pour les propriétaires de forêts en France. Simplifiez la gestion de votre PSG.
+                    </p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-white/80 mb-2" data-fr="Conçu avec <i class='fas fa-heart text-red-300'></i> pour les propriétaires forestiers." data-en="Designed with <i class='fas fa-heart text-red-300'></i> for forest owners.">
+                        Conçu avec <i class='fas fa-heart text-red-300'></i> pour les propriétaires forestiers.
+                    </p>
+                    <p class="text-white/60 text-sm">© 2026 Sylvanus.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script principal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentLang = 'fr';
+            const langToggle = document.getElementById('languageToggle');
+            const currentLangSpan = document.getElementById('currentLanguage');
+
+            // 1. TOGGLE LINGUISTIQUE
+            function updateLanguage() {
+                currentLangSpan.textContent = currentLang.toUpperCase();
+                document.querySelectorAll('[data-fr]').forEach(el => {
+                    const text = el.getAttribute(`data-${currentLang}`);
+                    if (!text) return;
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                        el.placeholder = text;
+                    } else if (el.hasAttribute('data-fr')) {
+                        el.innerHTML = text;
+                    }
+                });
+                // Mettre à jour aussi le texte du détail de la frise si ouvert
+                const activeDetail = document.querySelector('.timeline-step.active-timeline');
+                if (activeDetail) {
+                    updateTimelineDetail(activeDetail.getAttribute('data-info'));
+                }
+                updateEmailContent(); // Mettre à jour l'email généré
+            }
+            langToggle.addEventListener('click', () => {
+                currentLang = currentLang === 'fr' ? 'en' : 'fr';
+                updateLanguage();
+            });
+
+            // 2. LOGIQUE DE LA DÉMO (5 ÉTAPES)
+            const steps = [1, 2, 3, 4, 5];
+            function showStep(stepNum) {
+                // Mettre à jour les indicateurs visuels
+                document.querySelectorAll('.step-indicator').forEach(ind => {
+                    ind.classList.remove('active', 'bg-[#2d5937]', 'text-white', 'border-2', 'border-[#2d5937]');
+                    ind.classList.add('bg-gray-200', 'text-gray-500');
+                    if (parseInt(ind.dataset.step) === stepNum) {
+                        ind.classList.add('active', 'bg-[#2d5937]', 'text-white', 'border-2', 'border-[#2d5937]');
+                    } else if (parseInt(ind.dataset.step) < stepNum) {
+                        ind.classList.add('bg-[#6b9247]', 'text-white');
+                    }
+                });
+                // Afficher/Masquer les écrans
+                steps.forEach(s => {
+                    const el = document.getElementById(`step${s}`);
+                    if (el) el.classList.toggle('hidden', s !== stepNum);
+                });
+                // Effet spécial pour l'écran 2 (Analyse IA)
+                if (stepNum === 2) {
+                    const aiTask = document.getElementById('aiTask');
+                    const aiTaskText = document.getElementById('aiTaskText');
+                    setTimeout(() => {
+                        aiTask.innerHTML = '<i class="fas fa-check text-sm"></i>';
+                        aiTask.classList.remove('bg-[#d4a96c]');
+                        aiTask.classList.add('bg-[#6b9247]');
+                        aiTaskText.innerHTML = (currentLang === 'fr') ? 'Traduction terminée !' : 'Translation complete!';
+                    }, 1500);
+                }
+                // Masquer le détail de la frise quand on change d'écran
+                document.getElementById('timelineDetail').classList.add('hidden');
+            }
+            // Initialiser les indicateurs d'étape
+            document.querySelectorAll('.step-indicator').forEach(ind => {
+                ind.classList.add('w-10', 'h-10', 'rounded-full', 'flex', 'items-center', 'justify-center', 'font-bold', 'cursor-default', 'transition-all', 'duration-300');
+                if (ind.dataset.step === '1') ind.classList.add('active', 'bg-[#2d5937]', 'text-white', 'border-2', 'border-[#2d5937]');
+            });
+            // Boutons de navigation
+            window.showStep = showStep; // Rendre la fonction accessible globalement
+            document.getElementById('simulateUpload').addEventListener('click', () => showStep(2));
+
+            // 3. FRISE CHRONOLOGIQUE INTERACTIVE (ÉDUCATIVE)
+            const timelineSteps = document.querySelectorAll('.timeline-step');
+            const detailTextEl = document.getElementById('detailText');
+            const timelineDetailEl = document.getElementById('timelineDetail');
+
+            const timelineDetails = {
+                year1: {
+                    fr: "C'est la phase de <strong>planification</strong>. Vous et votre expert forestier discutez des objectifs pour votre forêt : souhaitez-vous privilégier la vente de bois, la promenade, ou la biodiversité ? C'est le moment de poser toutes vos questions naïves, c'est normal !",
+                    en: "This is the <strong>planning</strong> phase. You and your forestry expert discuss goals for your forest: do you want to prioritize timber sales, recreation, or biodiversity? This is the time to ask all your 'silly' questions – it's normal!"
+                },
+                year2: {
+                    fr: "C'est souvent la phase la plus obscure pour les propriétaires. En France, <strong>la plupart des coupes nécessitent une déclaration ou autorisation administrative</strong> (appelée souvent 'déclaration préalable'). Votre expert prépare et dépose le dossier. Sylvanus vous rappellera les délais (souvent 2-3 mois) pour éviter tout retard.",
+                    en: "This is often the most obscure phase for owners. In France, <strong>most cuttings require an administrative declaration or permit</strong> (often called 'prior declaration'). Your expert prepares and submits the application. Sylvanus will remind you of the lead times (often 2-3 months) to avoid any delays."
+                },
+                year3: {
+                    fr: "Les bûcherons interviennent sur votre parcelle. <strong>Votre rôle est de valider le chantier</strong> (ou de vous faire représenter). Sylvanus vous aidera à comprendre ce qui se passe et quels points vérifier. Après la coupe, le bois est mesuré (« cubé ») et vendu. Vous recevrez le paiement, après déduction des frais de gestion.",
+                    en: "The loggers work on your plot. <strong>Your role is to validate the operation</strong> (or have someone represent you). Sylvanus will help you understand what's happening and what to check. After the cut, the wood is measured ('cubed') and sold. You will receive payment, after management fees are deducted."
+                }
+            };
+
+            function updateTimelineDetail(infoKey) {
+                detailTextEl.innerHTML = timelineDetails[infoKey][currentLang];
+            }
+
+            timelineSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    // Retirer la classe active des autres étapes
+                    timelineSteps.forEach(s => s.classList.remove('active-timeline', 'border-[#2d5937]'));
+                    // Ajouter la classe active à l'étape cliquée
+                    this.classList.add('active-timeline', 'border-[#2d5937]');
+                    const infoKey = this.getAttribute('data-info');
+                    updateTimelineDetail(infoKey);
+                    timelineDetailEl.classList.remove('hidden');
+                });
+            });
+
+            // 4. GÉNÉRATEUR D'EMAIL INTERACTIF
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-action]');
+            const emailBody = document.getElementById('emailBody');
+
+            function updateEmailContent() {
+                let baseBody = {
+                    fr: [
+                        "Bonjour,",
+                        "Je vous contacte concernant la coupe prévue sur la parcelle B4 (chênes) à l'automne 2026, telle que planifiée dans mon Plan Simple de Gestion (PSG-2020-045).",
+                        "Pouvez-vous m'aider à initier les démarches pour l'autorisation administrative requise et me préciser les prochaines étapes ainsi que le calendrier ?",
+                        "", // Ligne vide pour insertion
+                        "Je reste à votre disposition pour en discuter.",
+                        "Cordialement,"
+                    ],
+                    en: [
+                        "Hello,",
+                        "I am contacting you regarding the cut planned on plot B4 (oaks) in fall 2026, as scheduled in my Forest Management Plan (PSG-2020-045).",
+                        "Could you help me initiate the process for the required administrative permit and clarify the next steps and timeline?",
+                        "", // Ligne vide pour insertion
+                        "I remain available to discuss it.",
+                        "Sincerely,"
+                    ]
+                };
+
+                let additionalRequests = [];
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        const action = cb.getAttribute('data-action');
+                        const requests = {
+                            quote: { fr: "Pourriez-vous également me transmettre un devis détaillé pour cette opération ?", en: "Could you also provide me with a detailed quote for this operation?" },
+                            visit: { fr: "Serait-il possible d'organiser une visite conjointe de la parcelle avant le début des travaux ?", en: "Would it be possible to organize a joint visit to the plot before work begins?" },
+                            ecology: { fr: "J'aimerais également en savoir plus sur les mesures qui seront prises pour préserver la biodiversité pendant et après la coupe.", en: "I would also like to know more about the measures that will be taken to preserve biodiversity during and after the cut." }
+                        };
+                        if (requests[action]) {
+                            additionalRequests.push(requests[action][currentLang]);
+                        }
+                    }
+                });
+
+                // Insérer les demandes supplémentaires
+                if (additionalRequests.length > 0) {
+                    baseBody[currentLang][3] = additionalRequests.join(' ');
+                } else {
+                    baseBody[currentLang][3] = ''; // Supprimer la ligne si rien n'est coché
+                }
+
+                // Reconstruire le corps de l'email
+                emailBody.innerHTML = baseBody[currentLang].map(line => `<p>${line}</p>`).join('');
+            }
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateEmailContent);
+            });
+
+            // Fonction pour copier l'email
+            window.copyToClipboard = function() {
+                const subject = document.getElementById('emailSubject').textContent;
+                const bodyLines = Array.from(emailBody.children).map(p => p.textContent).filter(t => t.trim() !== '');
+                const emailText = `Subject: ${subject}\n\n${bodyLines.join('\n')}`;
+                navigator.clipboard.writeText(emailText).then(() => {
+                    alert(currentLang === 'fr' ? '✅ Email copié dans le presse-papier !' : '✅ Email copied to clipboard!');
+                });
+            };
+
+            // 5. GESTION DU FORMULAIRE (simulation)
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    if (!form.checkValidity()) return;
+                    e.preventDefault();
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = (currentLang === 'fr') ?
+                        '<i class="fas fa-spinner fa-spin mr-2"></i> Inscription...' :
+                        '<i class="fas fa-spinner fa-spin mr-2"></i> Signing up...';
+                    submitBtn.disabled = true;
+                    setTimeout(() => {
+                        alert((currentLang === 'fr') ?
+                            '✅ Merci ! Votre place sur la liste d\'attente est confirmée.' :
+                            '✅ Thank you! Your spot on the waitlist is confirmed.');
+                        form.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 1200);
+                });
+            }
+
+            // 6. INITIALISATION
+            showStep(1);
+            updateLanguage();
+        });
+    </script>
+</body>
+</html>
